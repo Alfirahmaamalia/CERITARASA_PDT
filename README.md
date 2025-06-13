@@ -4,7 +4,7 @@ CeritaRasa adalah aplikasi berbasis web yang memungkinkan pengguna menyimpan, be
 
 ---
 # 📌 ERD
-Berikut adalah ERD
+Berikut adalah ERD dari Sistem CeritaRasa
 ![image](https://github.com/user-attachments/assets/77fe1655-06b5-4c22-b9c7-8bb8691e122a)
 
 Relasi Utama:
