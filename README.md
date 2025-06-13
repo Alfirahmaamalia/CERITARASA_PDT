@@ -3,7 +3,9 @@
 CeritaRasa adalah aplikasi berbasis web yang memungkinkan pengguna menyimpan, berbagi, dan memodifikasi resep masakan. Dibangun menggunakan PHP dan MySQL, platform ini menekankan prinsip kolaborasi dan kreatifitas dalam dunia memasak, serta menerapkan fitur-fitur SQL tingkat lanjut seperti transaction, stored procedure, trigger, dan stored function untuk menjaga konsistensi dan integritas data.
 
 ---
-# ERD
+# 📌 ERD
+Berikut adalah ERD
+![image](https://github.com/user-attachments/assets/77fe1655-06b5-4c22-b9c7-8bb8691e122a)
 
 ---
 # 📌 Detail Konsep
@@ -15,6 +17,7 @@ Stored procedure pada sistem resep ini berfungsi seperti SOP dapur digital yang 
 ![image](https://github.com/user-attachments/assets/f5727592-c64d-447e-9bcb-e61e3eecf1b3)
 
 Beberapa procedure penting yang di gunakan :
+
 **App\Models\Recipe.php**
 ✅ add_resep(...): Menambahkan resep baru sekaligus mencatat aktivitas pengguna.
 ```
@@ -79,6 +82,24 @@ Fungsi trigger ini memperkuat jejak audit (audit trail) dan meningkatkan keamana
 ---
 # 🔄 Transaction (Transaksi)
 Seperti halnya resep masakan yang gagal jika satu langkah terlewat, sistem ini juga menggunakan konsep all-or-nothing dalam transaksi database.
+```
+START TRANSACTION;
+  
+  -- Insert resep
+  INSERT INTO resep(user_id, judul, deskripsi, bahan, langkah, cuisine_type, difficulty_level, cooking_time, servings, image_url)
+  VALUES(p_user_id, p_judul, p_deskripsi, p_bahan, p_langkah, p_cuisine_type, p_difficulty_level, p_cooking_time, p_servings, p_image_url);
+  
+  -- Get the inserted ID
+  SET p_resep_id = LAST_INSERT_ID();
+  
+  -- Log aktivitas
+  INSERT INTO log_aktivitas(user_id, aktivitas)
+  VALUES(p_user_id, CONCAT('Menambahkan resep: ', p_judul));
+  
+  COMMIT;
+END $$
+DELIMITER ;
+```
 
 Pendekatan ini menjaga konsistensi data, memastikan bahwa semua proses berjalan utuh atau tidak sama sekali.
 
