@@ -1,6 +1,9 @@
 #  🍲 CeritaRasa – Platform Kolaboratif Resep Masakan
 
 CeritaRasa adalah aplikasi berbasis web yang memungkinkan pengguna menyimpan, berbagi, dan memodifikasi resep masakan. Dibangun menggunakan PHP dan MySQL, platform ini menekankan prinsip kolaborasi dan kreatifitas dalam dunia memasak, serta menerapkan fitur-fitur SQL tingkat lanjut seperti transaction, stored procedure, trigger, dan stored function untuk menjaga konsistensi dan integritas data.
+![image](https://github.com/user-attachments/assets/1a4e9222-ffd7-472a-b05f-e68eb0222ccc)
+
+
 
 ---
 # 📌 ERD
