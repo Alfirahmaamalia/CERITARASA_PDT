@@ -52,12 +52,48 @@ $stmt->execute([$userId, $resepId]);
 ---
 # 🚨 Trigger
 Trigger pada sistem ini berfungsi sebagai penjaga integritas data yang otomatis aktif saat data baru dimasukkan ke tabel. Seperti halnya alarm keamanan di dapur, trigger ini memastikan aktivitas pengguna selalu dicatat dengan tepat.
+**trg_resep_after_insert**
+Secara otomatis mencatat ke dalam tabel log setiap kali user menambahkan resep baru:
+```
+Trigger: log create resep
+CREATE TABLE log_aktivitas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  aktivitas VARCHAR(255),
+  waktu TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+DELIMITER $$
+CREATE TRIGGER trg_resep_after_insert
+AFTER INSERT ON resep
+FOR EACH ROW
+BEGIN
+  INSERT INTO log_aktivitas(user_id, aktivitas)
+  VALUES(NEW.user_id, CONCAT('Menambahkan resep: ', NEW.judul));
+END $$
+DELIMITER ;
+```
+Fungsi trigger ini memperkuat jejak audit (audit trail) dan meningkatkan keamanan serta akuntabilitas sistem.
 
 ---
 # 🔄 Transaction (Transaksi)
+Seperti halnya resep masakan yang gagal jika satu langkah terlewat, sistem ini juga menggunakan konsep all-or-nothing dalam transaksi database.
+
+Pendekatan ini menjaga konsistensi data, memastikan bahwa semua proses berjalan utuh atau tidak sama sekali.
 
 ---
 # 📺 Stored Function
+Stored function digunakan untuk mengambil informasi penting dari database tanpa mengubah data. Fungsi ini seperti dashboard status sistem, yang hanya menampilkan, bukan memodifikasi.
+
+![image](https://github.com/user-attachments/assets/9fccb3f9-1377-4db0-8c70-99d3da0c97e6)
+
+✅ get_total_tried(p_resep_id): Mengembalikan jumlah user yang sudah mencoba resep tersebut.
+
+✅ get_saved_count(p_user_id): Menghitung berapa resep yang sudah disimpan oleh pengguna.
+
+Dengan pendekatan ini, logika business rule seperti “berapa kali resep dicoba” tetap konsisten di seluruh sistem dan dapat diakses baik dari aplikasi maupun dari procedure.
+
 
 ---
 # 📦 Backup Otomatis
