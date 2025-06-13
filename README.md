@@ -7,7 +7,7 @@ CeritaRasa adalah aplikasi berbasis web yang memungkinkan pengguna menyimpan, be
 Berikut adalah ERD
 ![image](https://github.com/user-attachments/assets/77fe1655-06b5-4c22-b9c7-8bb8691e122a)
 
-Relasl Utama:
+Relasi Utama:
 1. users -> recipe: One-to-Many (1 user dapat membuat banyak resep)
 2. users -> saved_recipes: One-to-Many (1 user dapat menyimpan banyak resep).
 3. users -> recipe_tried: One-to-Many (1 user dapat mencoba banyak resep).
