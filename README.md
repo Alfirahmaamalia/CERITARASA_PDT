@@ -128,11 +128,17 @@ Dengan pendekatan ini, logika business rule seperti “berapa kali resep dicoba�
 
 ---
 # 📦 Backup Otomatis
-![image](https://github.com/user-attachments/assets/d1c56313-cfe3-47eb-8e10-ee62d52bad1c)
-![image](https://github.com/user-attachments/assets/7268cab1-909c-40af-be4c-7e6432f7b94a)
 
-Berikut adalah kodingan backup :
-````
+Untuk menjaga ketersediaan dan keamanan data, sistem ini dilengkapi dengan fitur backup otomatis yang memanfaatkan mysqldump dan Task Scheduler di Windows.
+
+Backup dijalankan secara berkala dan disimpan dengan nama file yang mengandung timestamp, sehingga memudahkan pelacakan berdasarkan waktu pembuatan.
+
+![image](https://github.com/user-attachments/assets/cd361b48-bdfd-44b7-9c1f-e8ef49adb6f5)
+![image](https://github.com/user-attachments/assets/ea2fce70-b3f4-4364-b22b-4ff5936ea0ec)
+
+Berikut Kode Backup :
+
+```
 -- MariaDB dump 10.18  Distrib 10.4.17-MariaDB, for Win64 (AMD64)
 --
 -- Host: localhost    Database: ceritarasa
@@ -165,7 +171,7 @@ CREATE TABLE `log_aktivitas` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `log_aktivitas_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,6 +180,7 @@ CREATE TABLE `log_aktivitas` (
 
 LOCK TABLES `log_aktivitas` WRITE;
 /*!40000 ALTER TABLE `log_aktivitas` DISABLE KEYS */;
+INSERT INTO `log_aktivitas` VALUES (1,1,'Menambahkan resep: nasi goreng','2025-06-14 04:02:28'),(2,1,'Menambahkan resep: nasi goreng','2025-06-14 04:02:28');
 /*!40000 ALTER TABLE `log_aktivitas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,7 +207,7 @@ CREATE TABLE `resep` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `resep_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -209,6 +216,7 @@ CREATE TABLE `resep` (
 
 LOCK TABLES `resep` WRITE;
 /*!40000 ALTER TABLE `resep` DISABLE KEYS */;
+INSERT INTO `resep` VALUES (5,1,'nasi goreng','enak','2 nasi','masak aja','2025-06-14 04:02:28','Indonesian','Easy',30,4,'public/uploads/recipes/recipe_684cf4541fd22.png');
 /*!40000 ALTER TABLE `resep` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -313,7 +321,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -322,6 +330,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'sofia azahra','sofiaazzahra2208@gmail.com','$2y$10$5N04NlG6s/zYSRfOnKJ9BeXTE1i84UsatP5Ng0dv/E.w8xS2RrnRS','2025-06-14 04:00:50');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -334,6 +343,6 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-14 10:50:47
+-- Dump completed on 2025-06-14 11:04:09
 ```
 
